@@ -1,5 +1,6 @@
-# Zentra ToDo Manager
+# Zentra ToDo Manager (v0.1.0)  
 Daily tasks manager for office and personal 
+Build: +20261101.1419
 
 ## Phase 1: foundation and identity
 
