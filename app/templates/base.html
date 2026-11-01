@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Zentra{% endblock %} · Zentra</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{{ url_for('departments.index') if current_user.is_authenticated else url_for('auth.login') }}">Zentra</a>
+    {% if current_user.is_authenticated %}
+    <nav aria-label="Main navigation">
+      <a href="{{ url_for('departments.index') }}">Departments</a>
+      {% if g.active_department %}<a href="{{ url_for('tasks.index') }}">Tasks</a>{% endif %}
+      <a href="{{ url_for('main.preferences') }}">Preferences</a>
+      {% if current_user.is_master_admin %}<a href="{{ url_for('admin.identity') }}">Administration</a>{% endif %}
+      <details class="user-menu">
+        <summary aria-label="Account menu for {{ current_user.username }}">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="8" r="3.5"></circle>
+            <path d="M4.5 20c.5-4 3.2-6 7.5-6s7 2 7.5 6"></path>
+          </svg>
+          <span class="sr-only">User account</span>
+        </summary>
+        <div class="user-menu-panel">
+          <h2>Signed-in user</h2>
+          <dl>
+            <dt>Name</dt>
+            <dd>{{ current_user.display_name }}</dd>
+            <dt>Login</dt>
+            <dd>{{ current_user.username }}</dd>
+            <dt>Role</dt>
+            <dd>
+              {% if current_user.is_master_admin %}
+                Master Admin
+              {% elif g.active_membership %}
+                {{ g.active_membership.role|replace('_', ' ')|title }}
+              {% else %}
+                No active department role
+              {% endif %}
+            </dd>
+            <dt>Department</dt>
+            <dd>{{ g.active_department.name if g.active_department else 'None selected' }}</dd>
+          </dl>
+          <form method="post" action="{{ url_for('auth.logout') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit">Sign out</button>
+          </form>
+        </div>
+      </details>
+    </nav>
+    {% endif %}
+  </header>
+  {% if current_user.is_authenticated %}
+  <aside class="app-sidebar" aria-label="Workspace">
+    <a href="{{ url_for('tasks.index') }}" aria-label="Tasks" title="Tasks" {% if request.endpoint == 'tasks.index' %}aria-current="page"{% endif %}><span aria-hidden="true">▦</span><small>Tasks</small></a>
+    <a href="{{ url_for('tasks.work_packages') }}" aria-label="Work Package" title="Work Package" {% if request.endpoint == 'tasks.work_packages' %}aria-current="page"{% endif %}><span aria-hidden="true">▤</span><small>Work Package</small></a>
+    <a href="{{ url_for('tasks.search') }}" aria-label="Search" title="Search" {% if request.endpoint == 'tasks.search' %}aria-current="page"{% endif %}><span aria-hidden="true">⌕</span><small>Search</small></a>
+  </aside>
+  {% endif %}
+  <main id="main-content" class="container">
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+      <p class="flash flash-{{ category }}" role="status">{{ message }}</p>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

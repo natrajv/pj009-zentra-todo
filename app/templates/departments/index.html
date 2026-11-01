@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Departments{% endblock %}
+{% block content %}
+<h1>Departments</h1>
+<p>Select a department you are authorized to access. Your selection is remembered for your next sign-in.</p>
+{% if active_department %}<p class="active-context">Current department: <strong>{{ active_department.name }}</strong></p>{% endif %}
+{% if departments %}
+  <ul class="department-list">
+  {% for department in departments %}
+    <li>
+      <span>{{ department.name }}</span>
+      {% if active_department and department.id == active_department.id %}
+        <span class="current-label">Current</span>
+      {% else %}
+        <form method="post" action="{{ url_for('departments.switch', department_id=department.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" aria-label="Switch to {{ department.name }}">Switch</button>
+        </form>
+      {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+{% else %}
+  {% if current_user.is_master_admin %}
+    <p>No departments are available yet. Create a department and assign memberships to get started.</p>
+    <p><a class="button-link" href="{{ url_for('admin.identity') }}">Set up departments and users</a></p>
+  {% else %}
+    <p>No active department memberships are available. Contact an administrator.</p>
+  {% endif %}
+{% endif %}
+{% endblock %}

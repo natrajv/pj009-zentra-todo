@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Preferences{% endblock %}
+{% block content %}
+<section class="card narrow" aria-labelledby="preferences-heading">
+  <h1 id="preferences-heading">List preferences</h1>
+  <p>These choices are remembered for your next sign-in. They do not change your access permissions.</p>
+  <form method="post" action="{{ url_for('main.update_preferences') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="task_list_filter">Task list</label>
+    <select id="task_list_filter" name="task_list_filter">
+      <option value="all" {% if preference.task_list_filter == 'all' %}selected{% endif %}>All</option>
+      <option value="self" {% if preference.task_list_filter == 'self' %}selected{% endif %}>Self</option>
+    </select>
+    <label for="work_package_list_filter">Work-package list</label>
+    <select id="work_package_list_filter" name="work_package_list_filter">
+      <option value="all" {% if preference.work_package_list_filter == 'all' %}selected{% endif %}>All</option>
+      <option value="self" {% if preference.work_package_list_filter == 'self' %}selected{% endif %}>Self</option>
+    </select>
+    <button type="submit">Save preferences</button>
+  </form>
+</section>
+{% endblock %}

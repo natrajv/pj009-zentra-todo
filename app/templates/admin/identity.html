@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Identity setup{% endblock %}
+{% block content %}
+<h1>Department and user setup</h1>
+<p>Only Master Admin can create departments, user accounts, and department memberships.</p>
+
+<div class="admin-grid">
+  <section class="card" aria-labelledby="department-heading">
+    <h2 id="department-heading">Create a department</h2>
+    <form method="post" action="{{ url_for('admin.create_department') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label for="department-name">Department name</label>
+      <input id="department-name" name="name" maxlength="120" required>
+      <label for="department-description">Description <span>(optional)</span></label>
+      <textarea id="department-description" name="description" maxlength="2000" rows="3"></textarea>
+      <button type="submit">Create department</button>
+    </form>
+  </section>
+
+  <section class="card" aria-labelledby="user-heading">
+    <h2 id="user-heading">Create a user</h2>
+    {% if departments %}
+    <form method="post" action="{{ url_for('admin.create_user') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label for="username">Username</label>
+      <input id="username" name="username" maxlength="80" autocomplete="off" required>
+      <label for="display-name">Display name</label>
+      <input id="display-name" name="display_name" maxlength="120" required>
+      <label for="new-password">Initial password</label>
+      <input id="new-password" name="password" type="password" minlength="12" autocomplete="new-password" required>
+      <label for="new-user-department">Department</label>
+      <select id="new-user-department" name="department_id" required>
+        {% for department in departments if department.is_active %}
+          <option value="{{ department.id }}">{{ department.name }}</option>
+        {% endfor %}
+      </select>
+      <label for="new-user-role">Department role</label>
+      <select id="new-user-role" name="role">
+        <option value="user">User</option>
+        <option value="department_admin">Department Admin</option>
+      </select>
+      <button type="submit">Create user</button>
+    </form>
+    {% else %}
+      <p>Create a department before creating users.</p>
+    {% endif %}
+  </section>
+
+  {% if users and departments %}
+  <section class="card" aria-labelledby="membership-heading">
+    <h2 id="membership-heading">Add a user to another department</h2>
+    <form method="post" action="{{ url_for('admin.assign_membership') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label for="membership-user">User</label>
+      <select id="membership-user" name="user_id" required>
+        {% for user in users if user.is_active %}
+          <option value="{{ user.id }}">{{ user.display_name }} ({{ user.username }})</option>
+        {% endfor %}
+      </select>
+      <label for="membership-department">Department</label>
+      <select id="membership-department" name="department_id" required>
+        {% for department in departments if department.is_active %}
+          <option value="{{ department.id }}">{{ department.name }}</option>
+        {% endfor %}
+      </select>
+      <label for="membership-role">Department role</label>
+      <select id="membership-role" name="role">
+        <option value="user">User</option>
+        <option value="department_admin">Department Admin</option>
+      </select>
+      <button type="submit">Save membership</button>
+    </form>
+  </section>
+  {% endif %}
+</div>
+
+<section aria-labelledby="current-departments">
+  <h2 id="current-departments">Departments</h2>
+  {% if departments %}
+  <div class="task-table-scroll"><table class="task-table"><thead><tr><th>Department</th><th>Description</th><th>Status</th></tr></thead><tbody>
+    {% for department in departments %}<tr><th>{{ department.name }}</th><td>{{ department.description or '—' }}</td><td>{{ 'Active' if department.is_active else 'Inactive' }}</td></tr>{% endfor %}
+  </tbody></table></div>
+  {% else %}<p>No departments created yet.</p>{% endif %}
+</section>
+
+<section aria-labelledby="current-memberships">
+  <h2 id="current-memberships">Active memberships</h2>
+  {% if memberships %}
+  <div class="task-table-scroll"><table class="task-table"><thead><tr><th>User</th><th>Login</th><th>Department</th><th>Role</th><th>Status</th></tr></thead><tbody>
+    {% for membership in memberships %}<tr><th>{{ membership.user.display_name }}</th><td>{{ membership.user.username }}</td><td>{{ membership.department.name }}</td><td>{{ membership.role|replace('_', ' ')|title }}</td><td>{{ 'Active' if membership.is_active else 'Inactive' }}</td></tr>{% endfor %}
+  </tbody></table></div>
+  {% else %}<p>No active memberships yet.</p>{% endif %}
+</section>
+{% endblock %}
