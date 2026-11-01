@@ -1,4 +1,4 @@
-# pj009-zentra-todo
+# Zentra ToDo Manager
 Daily tasks manager for office and personal 
 
 ## Phase 1: foundation and identity
