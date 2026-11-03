@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Zentra stylized Z</title>
+  <desc id="desc">A bold geometric Z with a teal directional stroke.</desc>
+  <rect x="14" y="14" width="100" height="100" rx="26" fill="#173E5A"/>
+  <path d="M38 42h53L37 87h53" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m75 73 15 14-21 2" fill="none" stroke="#62C5A5" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

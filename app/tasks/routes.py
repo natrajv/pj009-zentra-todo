@@ -36,6 +36,20 @@ def _active_department_users(department_id: int) -> list[User]:
     ).all()
 
 
+def _task_grid_search(search_text: str):
+    pattern = f"%{search_text}%"
+    return or_(
+        Task.title.ilike(pattern),
+        Task.description.ilike(pattern),
+        Task.status.ilike(pattern),
+        Task.priority.ilike(pattern),
+        cast(Task.due_date, String).ilike(pattern),
+        cast(Task.created_at, String).ilike(pattern),
+        Task.assignee.has(User.display_name.ilike(pattern)),
+        Task.created_by.has(User.display_name.ilike(pattern)),
+    )
+
+
 @bp.get("")
 @login_required
 def index():
@@ -69,8 +83,7 @@ def index():
     if selected_filter == "self":
         conditions.append(Task.assignee_user_id == current_user.id)
     if search:
-        pattern = f"%{search}%"
-        conditions.append(or_(Task.title.ilike(pattern), Task.description.ilike(pattern)))
+        conditions.append(_task_grid_search(search))
 
     total = db.session.scalar(select(func.count(Task.id)).where(*conditions)) or 0
     page_count = max((total + PAGE_SIZE - 1) // PAGE_SIZE, 1)
@@ -172,18 +185,7 @@ def search():
         abort(400)
     conditions = [Task.department_id == g.active_department.id, Task.is_archived.is_(False)]
     if search_text:
-        pattern = f"%{search_text}%"
-        conditions.append(
-            or_(
-                Task.title.ilike(pattern),
-                Task.description.ilike(pattern),
-                Task.status.ilike(pattern),
-                Task.priority.ilike(pattern),
-                cast(Task.due_date, String).ilike(pattern),
-                Task.assignee.has(User.display_name.ilike(pattern)),
-                Task.created_by.has(User.display_name.ilike(pattern)),
-            )
-        )
+        conditions.append(_task_grid_search(search_text))
     total = db.session.scalar(select(func.count(Task.id)).where(*conditions)) or 0
     page_count = max((total + PAGE_SIZE - 1) // PAGE_SIZE, 1)
     page = min(page, page_count)

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Zentra four-point compass</title>
+  <desc id="desc">A minimal four-point compass star with a teal north point.</desc>
+  <path d="M64 12 77 51 116 64 77 77 64 116 51 77 12 64 51 51Z" fill="#173E5A"/>
+  <path d="M64 12 77 51 64 64 51 51Z" fill="#62C5A5"/>
+  <circle cx="64" cy="64" r="5" fill="#fff"/>
+</svg>

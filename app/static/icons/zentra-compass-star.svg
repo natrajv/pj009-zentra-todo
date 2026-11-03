@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Zentra compass star</title>
+  <desc id="desc">A crisp four point compass star centered inside a circular guide.</desc>
+  <g fill="none" stroke="#173E5A" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="64" cy="64" r="48" stroke-width="6"/>
+    <path d="M64 26v10M64 92v10M26 64h10M92 64h10" stroke-width="5"/>
+  </g>
+  <path d="M64 34 73 55 94 64 73 73 64 94 55 73 34 64 55 55Z" fill="#1261A0"/>
+  <path d="m64 34 0 30-30 0 21-9Z" fill="#62C5A5"/>
+  <circle cx="64" cy="64" r="5" fill="#173E5A"/>
+</svg>

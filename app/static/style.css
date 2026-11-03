@@ -247,6 +247,13 @@ body { background: var(--workspace-bg); color: #1d2733; font-family: "Segoe UI",
 .header-nav a { font-size: .84rem; }
 .task-list-heading { min-height: 2.5rem; padding: .35rem .6rem; border: 1px solid var(--workspace-border); border-bottom: 0; border-radius: .4rem .4rem 0 0; background: #fff; }
 .task-list-heading h2 { font-size: .9rem; }
+.task-list-controls { display: flex; align-items: center; justify-content: flex-end; gap: .7rem; min-width: 0; }
+.compact-search { display: flex !important; flex: 0 1 auto; align-items: center; gap: .35rem !important; min-width: 0; }
+.compact-search input { width: clamp(10rem, 22vw, 19rem); min-width: 7rem; padding: .42rem .6rem; border-color: var(--workspace-border); border-radius: .3rem; font-size: .8rem; }
+.compact-search button, .search-clear-button { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; min-height: 2rem; padding: .4rem .65rem; border: 1px solid var(--workspace-accent); border-radius: .3rem; background: var(--workspace-accent); color: #fff; font-size: .78rem; line-height: 1; text-decoration: none; white-space: nowrap; }
+.compact-search button:hover, .search-clear-button:hover { background: #0c4d82; color: #fff; }
+.compact-search .search-clear-button { border-color: var(--workspace-border); background: #fff; color: #3f4c59; }
+.compact-search .search-clear-button:hover { background: #f1f6fa; color: var(--workspace-accent); }
 .task-list-heading .compact-filter label { color: var(--workspace-muted); font-size: .75rem; }
 .compact-filter select { min-width: 6.5rem; padding: .4rem 1.7rem .4rem .55rem; border-color: var(--workspace-border); border-radius: .3rem; background: #fff; font-size: .8rem; }
 .compact-filter button { padding: .4rem .65rem; font-size: .78rem; }
@@ -254,6 +261,9 @@ body { background: var(--workspace-bg); color: #1d2733; font-family: "Segoe UI",
 .task-table thead th { white-space: nowrap; }
 .task-table tbody td, .task-table tbody th { color: #344250; }
 .search-panel { border-radius: .4rem; }
+.search-panel form.compact-search { display: flex; width: 100%; }
+.search-panel .compact-search input { flex: 1 1 auto; width: auto; min-width: 0; }
+.search-panel p { margin-bottom: 0; }
 .search-panel input, .search-panel select, .task-edit-form input, .task-edit-form select, .task-edit-form textarea, .task-dialog form > input, .task-dialog form > select, .task-dialog form > textarea { border-color: #cfd7df; border-radius: .35rem; }
 .pagination { margin-top: .8rem; }
 .pagination a:hover { background: #f1f6fa; }
@@ -263,4 +273,9 @@ body { background: var(--workspace-bg); color: #1d2733; font-family: "Segoe UI",
   .brand-subtitle { max-width: 48vw; }
   .container { min-height: calc(100vh - 3.5rem); }
   .app-sidebar { inset-block-start: 3.5rem; }
+  .task-list-heading { align-items: flex-start; flex-direction: column; }
+  .task-list-controls { width: 100%; flex-wrap: wrap; justify-content: flex-start; }
+  .compact-search { flex: 1 1 100%; }
+  .compact-search input { flex: 1 1 auto; width: auto; }
+  .task-list-controls .compact-filter { flex: 1 1 auto; }
 }

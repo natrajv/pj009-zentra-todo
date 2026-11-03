@@ -7,10 +7,16 @@
   <a class="button-link" href="{{ url_for('tasks.index', mode='create') }}">＋ Create Task</a>
 </div>
 <div class="task-list-heading"><h2>Department Tasks</h2>
-  <form class="compact-filter" method="post" action="{{ url_for('tasks.save_filter') }}">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="q" value="{{ search }}">
-    <label for="task-filter">Show</label><select id="task-filter" name="task_list_filter"><option value="all" {% if selected_filter == 'all' %}selected{% endif %}>All</option><option value="self" {% if selected_filter == 'self' %}selected{% endif %}>Self</option></select><button type="submit">Apply</button>
-  </form>
+  <div class="task-list-controls">
+    <form class="compact-search" method="get" action="{{ url_for('tasks.index') }}" role="search">
+      <label class="sr-only" for="task-grid-search">Search tasks</label><input id="task-grid-search" name="q" type="search" maxlength="120" value="{{ search }}" placeholder="Search this grid">
+      <button type="submit">Search</button><a class="search-clear-button" role="button" href="{{ url_for('tasks.index') }}">Clear</a>
+    </form>
+    <form class="compact-filter" method="post" action="{{ url_for('tasks.save_filter') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="q" value="{{ search }}">
+      <label for="task-filter">Show</label><select id="task-filter" name="task_list_filter"><option value="all" {% if selected_filter == 'all' %}selected{% endif %}>All</option><option value="self" {% if selected_filter == 'self' %}selected{% endif %}>Self</option></select><button type="submit">Apply</button>
+    </form>
+  </div>
 </div>
 <div class="task-table-scroll" role="region" aria-label="Department task list" tabindex="0">
 <table class="task-table" data-grid="task"><colgroup>{% for key in ['task','description','status','priority','assignee','due_date','created_by','created','actions'] %}<col data-col="{{ key }}" style="width:{{ grid_widths[key] }}px">{% endfor %}</colgroup><thead><tr>{% for key,label in [('task','Task'),('description','Description'),('status','Status'),('priority','Priority'),('assignee','Assignee'),('due_date','Due date'),('created_by','Created by'),('created','Created')] %}<th><a href="{{ url_for('tasks.index',q=search or None,sort=key,direction='desc' if sort==key and direction=='asc' else 'asc') }}">{{ label }}{% if sort==key %} {{ '↑' if direction=='asc' else '↓' }}{% endif %}</a><span class="resize-handle" aria-hidden="true"></span></th>{% endfor %}<th>Actions</th></tr></thead><tbody>
