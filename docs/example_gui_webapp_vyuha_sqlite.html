@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<!-- saved from url=(0022)http://localhost:5000/ -->
+<!-- saved from url=(0061)file:///D:/ws/pj009/docs/example_gui_webapp_vyuha_sqlite.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vyuha SQLite Viewer</title>
-<link rel="icon" type="image/svg+xml" href="./Vyuha SQLite Viewer_files/vyuha.svg">
-<link rel="stylesheet" href="./Vyuha SQLite Viewer_files/style.css">
+<link rel="icon" type="image/svg+xml" href="./example_gui_webapp_vyuha_sqlite_files/vyuha.svg">
+<link rel="stylesheet" href="./example_gui_webapp_vyuha_sqlite_files/style.css">
 <style id="dark-reader-style" type="text/css">@media screen {
 html {-webkit-transition : -webkit-filter 300ms linear;}
 }</style></head><body>
 <header class="topbar">
-  <div class="brand"><img src="./Vyuha SQLite Viewer_files/vyuha.svg" alt=""><div><div class="app-title">Vyuha SQLite Viewer <span>v1.4.2</span></div><div class="subtitle" id="databaseName">inventory.db</div></div></div>
+  <div class="brand"><img src="./example_gui_webapp_vyuha_sqlite_files/vyuha.svg" alt=""><div><div class="app-title">Vyuha SQLite Viewer <span>v1.4.2</span></div><div class="subtitle" id="databaseName">inventory.db</div></div></div>
   <div class="header-actions"><button class="primary-btn" onclick="openDatabasePicker()">▣ Open Database</button><input id="databasePicker" type="file" accept=".db,.sqlite,.sqlite3" hidden="" onchange="openDatabase(this)"><button class="menu-btn" onclick="showInfo('features')">Features</button><button class="menu-btn" onclick="showInfo('about')">About</button></div>
 </header>
 
@@ -71,7 +71,7 @@ html {-webkit-transition : -webkit-filter 300ms linear;}
       <div class="search-line"><label for="gridSearch">Search grid</label><input id="gridSearch" placeholder="Wildcard: * and ?; regex mode supported"><select id="gridSearchMode"><option value="wildcard">Wildcard</option><option value="regex">Regex</option></select><button class="primary-btn" onclick="applyGridSearch()">Search</button><button class="secondary-btn" onclick="clearGridSearch()">Clear</button></div>
       <div class="search-hint">Search applies across all columns in the current table or query result. Click a column heading to sort.</div>
     </div>
-    <div id="emptyState" class="empty-state" style="display: none;"><img src="./Vyuha SQLite Viewer_files/vyuha.svg" alt=""><h2>Vyuha SQLite Viewer</h2><p>Database opened. Select a table or run a query.</p></div>
+    <div id="emptyState" class="empty-state" style="display: none;"><img src="./example_gui_webapp_vyuha_sqlite_files/vyuha.svg" alt=""><h2>Vyuha SQLite Viewer</h2><p>Database opened. Select a table or run a query.</p></div>
     <div id="tableView" class="table-view" style="display: flex;"><div class="table-meta" id="tableMeta">2 rows</div><div class="grid-wrap"><table id="dataGrid"><thead><tr><th class="sortable" title="Click to sort">__rowid__</th><th class="sortable" title="Click to sort">application_id</th><th class="sortable" title="Click to sort">application_name</th><th class="sortable" title="Click to sort">environment</th><th class="sortable" title="Click to sort">availability</th><th class="sortable" title="Click to sort">status</th></tr></thead><tbody><tr title="Click to view row details"><td>1</td><td>1</td><td>Vyuha SQLite Patch Manager</td><td>Demo</td><td>HA</td><td>Active</td></tr><tr title="Click to view row details"><td>2</td><td>2</td><td>Vyuha SQLite Viewer</td><td>Demo</td><td>HA</td><td>Active</td></tr></tbody></table></div><div class="pagination"><button onclick="goPage(-1)" id="prevBtn" disabled="">‹</button><span id="pageInfo">Page 1 of 1</span><button onclick="goPage(1)" id="nextBtn" disabled="">›</button></div></div>
   </section>
 </main>

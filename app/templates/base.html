@@ -9,7 +9,7 @@
   <header class="site-header">
     <a class="brand" href="{{ url_for('tasks.index') if current_user.is_authenticated else url_for('auth.login') }}" aria-label="{{ product.brand_name }} home">
       <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8"/><path d="M9 16l5 5 9-11"/></svg>
-      <span class="brand-name">{{ product.app_name }} <small>{{ product.version }}</small></span>
+      <span class="brand-copy"><span class="brand-name">{{ product.app_name }} <small>{{ product.version }}</small></span><span class="brand-subtitle">{% if current_user.is_authenticated and g.active_department %}{{ g.active_department.name }}{% else %}Organize. Execute. Achieve.{% endif %}</span></span>
     </a>
     {% if current_user.is_authenticated %}<nav class="header-nav" aria-label="Product information"><a href="{{ url_for('main.about') }}">About</a><a href="{{ url_for('main.features') }}">Features</a></nav>{% endif %}
   </header>

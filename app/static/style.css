@@ -210,8 +210,10 @@ body { background: var(--workspace-bg); color: #1d2733; font-family: "Segoe UI",
 .brand { gap: .65rem; color: #1d2733; }
 .brand-mark { width: 2rem; height: 2rem; fill: #1261a0; stroke: #fff; }
 .brand-mark path { stroke: #fff; }
+.brand-copy { display: grid; gap: .1rem; min-width: 0; }
 .brand-name { display: inline-flex; align-items: center; gap: .45rem; }
 .brand-name small { margin: 0; padding: .2rem .4rem; border-radius: .5rem; background: var(--workspace-soft); color: var(--workspace-accent); font-size: .7rem; }
+.brand-subtitle { overflow: hidden; color: var(--workspace-muted); font-size: .7rem; font-weight: 400; text-overflow: ellipsis; }
 .header-nav { gap: .25rem; }
 .header-nav a { padding: .45rem .65rem; border-radius: .4rem; color: #3f4c59; text-decoration: none; }
 .header-nav a:hover, .header-nav a[aria-current="page"] { background: #f1f6fa; color: var(--workspace-accent); }
@@ -241,8 +243,24 @@ body { background: var(--workspace-bg); color: #1d2733; font-family: "Segoe UI",
 .search-panel h2, .data-panel h2 { font-size: 1rem; }
 .pagination a, .pagination .current-page, .pagination span[aria-disabled="true"] { border-color: var(--workspace-border); }
 .pagination .current-page { background: #173e5a; }
+.app-sidebar { inset-block-start: 4rem; }
+.header-nav a { font-size: .84rem; }
+.task-list-heading { min-height: 2.5rem; padding: .35rem .6rem; border: 1px solid var(--workspace-border); border-bottom: 0; border-radius: .4rem .4rem 0 0; background: #fff; }
+.task-list-heading h2 { font-size: .9rem; }
+.task-list-heading .compact-filter label { color: var(--workspace-muted); font-size: .75rem; }
+.compact-filter select { min-width: 6.5rem; padding: .4rem 1.7rem .4rem .55rem; border-color: var(--workspace-border); border-radius: .3rem; background: #fff; font-size: .8rem; }
+.compact-filter button { padding: .4rem .65rem; font-size: .78rem; }
+.task-table-scroll { border-radius: 0 0 .4rem .4rem; }
+.task-table thead th { white-space: nowrap; }
+.task-table tbody td, .task-table tbody th { color: #344250; }
+.search-panel { border-radius: .4rem; }
+.search-panel input, .search-panel select, .task-edit-form input, .task-edit-form select, .task-edit-form textarea, .task-dialog form > input, .task-dialog form > select, .task-dialog form > textarea { border-color: #cfd7df; border-radius: .35rem; }
+.pagination { margin-top: .8rem; }
+.pagination a:hover { background: #f1f6fa; }
 @media (max-width: 36rem) {
-  .site-header { min-height: 3.5rem; }
+  .site-header { min-height: 3.5rem; padding-inline: .75rem; }
   .brand-name { gap: .25rem; }
+  .brand-subtitle { max-width: 48vw; }
   .container { min-height: calc(100vh - 3.5rem); }
+  .app-sidebar { inset-block-start: 3.5rem; }
 }
