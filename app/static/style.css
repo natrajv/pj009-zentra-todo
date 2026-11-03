@@ -158,7 +158,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .dialog-header h2 { margin: 0; }
 .dialog-actions { display: flex; align-items: center; gap: .6rem; margin-top: 1rem; }
 .secondary-link { border: 1px solid #718394; background: white; color: #20384b; }
-.search-workspace { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; align-items: start; }
+.search-workspace { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; align-items: start; }
 .search-results { grid-column: 1; grid-row: 2; min-width: 0; }
 .search-panel { grid-column: 1; grid-row: 1; padding: 1rem; border: 1px solid #cbd8e1; border-radius: .6rem; background: white; }
 .search-panel h2 { margin-top: 0; }
@@ -267,6 +267,23 @@ body { background: var(--workspace-bg); color: #1d2733; font-family: "Segoe UI",
 .search-panel input, .search-panel select, .task-edit-form input, .task-edit-form select, .task-edit-form textarea, .task-dialog form > input, .task-dialog form > select, .task-dialog form > textarea { border-color: #cfd7df; border-radius: .35rem; }
 .pagination { margin-top: .8rem; }
 .pagination a:hover { background: #f1f6fa; }
+.task-list-controls .content-search-region, .content-search-controls { display: flex; align-items: center; gap: .4rem; min-width: 0; }
+.search-grid-toolbar { grid-column: 1; grid-row: 1; }
+.search-grid-toolbar .task-list-controls { width: auto; }
+.search-grid-toolbar .compact-search { flex: 0 1 auto; }
+.full-page-toggle, .full-page-back { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; min-height: 2rem; padding: .35rem .6rem; border: 1px solid var(--workspace-accent); border-radius: .35rem; background: var(--workspace-accent); color: #fff; font-size: .78rem; }
+.full-page-toggle:hover { background: #0c4d82; color: #fff; }
+.full-page-back:hover { background: #0c4d82; color: #fff; }
+.full-page-toggle svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.full-page-back { display: none; margin-left: auto; border-color: var(--workspace-accent); background: var(--workspace-accent); color: #fff; }
+.full-page-mode .site-header { position: sticky; min-height: 3.25rem; height: 3.25rem; padding-block: .35rem; }
+.full-page-mode .brand-mark { width: 1.7rem; height: 1.7rem; }
+.full-page-mode .brand-subtitle, .full-page-mode .header-nav, .full-page-mode .app-sidebar, .full-page-mode .breadcrumbs, .full-page-mode .workspace-heading { display: none; }
+.full-page-mode .full-page-back { display: inline-flex; }
+.full-page-mode .content-search-region .full-page-toggle { display: none; }
+.full-page-mode .container { width: auto; max-width: none; min-height: calc(100vh - 3.25rem); margin: 0; padding: 1rem; }
+.full-page-mode .task-table-scroll { max-height: calc(100vh - 12rem); }
+.full-page-mode .search-workspace { gap: .65rem; }
 @media (max-width: 36rem) {
   .site-header { min-height: 3.5rem; padding-inline: .75rem; }
   .brand-name { gap: .25rem; }
@@ -275,7 +292,11 @@ body { background: var(--workspace-bg); color: #1d2733; font-family: "Segoe UI",
   .app-sidebar { inset-block-start: 3.5rem; }
   .task-list-heading { align-items: flex-start; flex-direction: column; }
   .task-list-controls { width: 100%; flex-wrap: wrap; justify-content: flex-start; }
+  .task-list-controls .content-search-region { flex: 1 1 100%; }
   .compact-search { flex: 1 1 100%; }
   .compact-search input { flex: 1 1 auto; width: auto; }
   .task-list-controls .compact-filter { flex: 1 1 auto; }
+  .search-grid-toolbar { align-items: flex-start; flex-direction: column; }
+  .search-grid-toolbar .task-list-controls { width: 100%; justify-content: flex-start; }
+  .search-grid-toolbar .compact-search { flex: 1 1 auto; }
 }

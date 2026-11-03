@@ -5,13 +5,14 @@
   <title>{% block title %}{{ product.app_name }}{% endblock %} · {{ product.app_name }}</title>
   <meta name="csrf-token" content="{{ csrf_token() }}"><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body{% if request.args.get('full_page') == '1' %} class="full-page-mode"{% endif %}>
   <header class="site-header">
     <a class="brand" href="{{ url_for('tasks.index') if current_user.is_authenticated else url_for('auth.login') }}" aria-label="{{ product.brand_name }} home">
       <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8"/><path d="M9 16l5 5 9-11"/></svg>
       <span class="brand-copy"><span class="brand-name">{{ product.app_name }} <small>{{ product.version }}</small></span><span class="brand-subtitle">{% if current_user.is_authenticated and g.active_department %}{{ g.active_department.name }}{% else %}Organize. Execute. Achieve.{% endif %}</span></span>
     </a>
     {% if current_user.is_authenticated %}<nav class="header-nav" aria-label="Product information"><a href="{{ url_for('main.about') }}">About</a><a href="{{ url_for('main.features') }}">Features</a></nav>{% endif %}
+    {% if current_user.is_authenticated %}<button class="full-page-back" type="button" data-exit-full-page><span aria-hidden="true">←</span> Back</button>{% endif %}
   </header>
   {% if current_user.is_authenticated %}
   <aside class="app-sidebar" aria-label="Workspace">
@@ -23,7 +24,10 @@
     <details class="account-rail"><summary aria-label="Account menu for {{ current_user.username }}" title="Account"><span class="rail-icon" aria-hidden="true">●</span><small>Account</small></summary><div class="user-menu-panel"><h2>Signed-in user</h2><dl><dt>Name</dt><dd>{{ current_user.display_name }}</dd><dt>Login</dt><dd>{{ current_user.username }}</dd><dt>Role</dt><dd>{% if current_user.is_master_admin %}Master Admin{% elif g.active_membership %}{{ g.active_membership.role|replace('_', ' ')|title }}{% else %}No active department role{% endif %}</dd><dt>Department</dt><dd>{{ g.active_department.name if g.active_department else 'None selected' }}</dd></dl><a href="{{ url_for('departments.index') }}">Switch department</a><form method="post" action="{{ url_for('auth.logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">Sign out</button></form></div></details>
   </aside>
   {% endif %}
-  <main id="main-content" class="container">{% for category, message in get_flashed_messages(with_categories=true) %}<p class="flash flash-{{ category }}" role="status">{{ message }}</p>{% endfor %}{% block content %}{% endblock %}</main>
+  <main id="main-content" class="container">
+    {% for category, message in get_flashed_messages(with_categories=true) %}<p class="flash flash-{{ category }}" role="status">{{ message }}</p>{% endfor %}{% block content %}{% endblock %}
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
   {% block scripts %}{% endblock %}
 </body>
 </html>

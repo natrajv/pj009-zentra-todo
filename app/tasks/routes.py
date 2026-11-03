@@ -196,9 +196,16 @@ def search():
         .offset((page - 1) * PAGE_SIZE)
         .limit(PAGE_SIZE)
     ).all()
+    selected_id = request.args.get("selected", type=int)
+    selected_task = (
+        db.session.scalar(select(Task).where(Task.id == selected_id, *conditions))
+        if selected_id
+        else None
+    )
     return render_template(
         "tasks/search.html",
         tasks=tasks,
+        selected_task=selected_task,
         search=search_text,
         total=total,
         page=page,

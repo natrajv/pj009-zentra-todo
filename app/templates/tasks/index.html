@@ -8,14 +8,17 @@
 </div>
 <div class="task-list-heading"><h2>Department Tasks</h2>
   <div class="task-list-controls">
-    <form class="compact-search" method="get" action="{{ url_for('tasks.index') }}" role="search">
-      <label class="sr-only" for="task-grid-search">Search tasks</label><input id="task-grid-search" name="q" type="search" maxlength="120" value="{{ search }}" placeholder="Search this grid">
-      <button type="submit">Search</button><a class="search-clear-button" role="button" href="{{ url_for('tasks.index') }}">Clear</a>
-    </form>
     <form class="compact-filter" method="post" action="{{ url_for('tasks.save_filter') }}">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="q" value="{{ search }}">
       <label for="task-filter">Show</label><select id="task-filter" name="task_list_filter"><option value="all" {% if selected_filter == 'all' %}selected{% endif %}>All</option><option value="self" {% if selected_filter == 'self' %}selected{% endif %}>Self</option></select><button type="submit">Apply</button>
     </form>
+    <div class="content-search-region">
+      <form class="compact-search" method="get" action="{{ url_for('tasks.index') }}" role="search">
+        <label class="sr-only" for="task-grid-search">Search tasks</label><input id="task-grid-search" name="q" type="search" maxlength="120" value="{{ search }}" placeholder="Search this grid">
+        <button type="submit">Search</button><a class="search-clear-button" role="button" href="{{ url_for('tasks.index') }}">Clear</a>
+      </form>
+      <button class="full-page-toggle" type="button" data-enter-full-page aria-pressed="false" title="Show grid full page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5M3 3l6 6m12-6-6 6m6 12-6-6M3 21l6-6"/></svg><span>Full Page</span></button>
+    </div>
   </div>
 </div>
 <div class="task-table-scroll" role="region" aria-label="Department task list" tabindex="0">
