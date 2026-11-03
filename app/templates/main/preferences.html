@@ -2,15 +2,48 @@
 {% block title %}Preferences{% endblock %}
 {% block content %}
 <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{{ url_for('tasks.index') }}">Tasks</a><span aria-hidden="true">›</span><span aria-current="page">Preferences</span></nav>
-<section class="card preferences-page" aria-labelledby="preferences-heading">
-  <h1 id="preferences-heading">Preferences</h1><p>These choices are saved to your account and do not change your access permissions.</p>
-  <form method="post" action="{{ url_for('main.update_preferences') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <h2>List filters</h2>
-    <label for="task_list_filter">Task list</label><select id="task_list_filter" name="task_list_filter"><option value="all" {% if preference.task_list_filter == 'all' %}selected{% endif %}>All</option><option value="self" {% if preference.task_list_filter == 'self' %}selected{% endif %}>Self</option></select>
-    <label for="work_package_list_filter">Work-package list</label><select id="work_package_list_filter" name="work_package_list_filter"><option value="all" {% if preference.work_package_list_filter == 'all' %}selected{% endif %}>All</option><option value="self" {% if preference.work_package_list_filter == 'self' %}selected{% endif %}>Self</option></select>
-    <h2>Grid column widths (pixels)</h2><p>Defaults are provided by the product configuration. Widths must be between 60 and 800 pixels.</p>
-    {% for grid,label in [('task','Task grid'),('work_package','Work Package grid'),('search','Search Result grid')] %}<fieldset class="width-group"><legend>{{ label }}</legend>{% for column,default in grid_defaults[grid].items() %}<label for="width_{{ grid }}_{{ column }}">{{ column|replace('_',' ')|title }}</label><input id="width_{{ grid }}_{{ column }}" type="number" min="60" max="800" name="width_{{ grid }}_{{ column }}" value="{{ grid_widths[grid][column] }}">{% endfor %}</fieldset>{% endfor %}
-    <button type="submit">Save preferences</button><button type="submit" name="restore_grid_defaults" value="1" class="secondary-button">Restore grid defaults</button>
-  </form>
-</section>
+<div class="preferences-layout" data-preferences-layout>
+  <aside class="preferences-sidebar" aria-label="Preferences sections">
+    <div class="preferences-sidebar-header">
+      <h1>Preferences</h1>
+      <button class="secondary-button preferences-sidebar-collapse" type="button" data-collapse-preferences aria-expanded="true" aria-label="Collapse Preferences sidebar" title="Collapse sidebar">‹</button>
+    </div>
+    <nav aria-label="Preference sections">
+      <ul class="preferences-section-list">
+        <li><a href="{{ url_for('main.preferences', section='list_filters') }}" {% if selected_section == 'list_filters' %}aria-current="page"{% endif %}>List filters</a></li>
+        <li><a href="{{ url_for('main.preferences', section='grid_widths') }}" {% if selected_section == 'grid_widths' %}aria-current="page"{% endif %}>Grid column widths (pixels)</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <section class="preferences-content" aria-labelledby="preferences-section-heading">
+    <header class="preferences-content-header">
+      <button class="secondary-button preferences-sidebar-expand" type="button" data-expand-preferences aria-expanded="false" aria-label="Show Preferences sidebar">☰ Preferences</button>
+      <div>
+        <h2 id="preferences-section-heading">{% if selected_section == 'list_filters' %}List filters{% else %}Grid column widths (pixels){% endif %}</h2>
+        <p>These choices are saved to your account and do not change your access permissions.</p>
+      </div>
+    </header>
+    {% if selected_section == 'list_filters' %}
+    <form class="preferences-form card" method="post" action="{{ url_for('main.update_preferences') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="section" value="list_filters">
+      <label for="task_list_filter">Task list</label>
+      <select id="task_list_filter" name="task_list_filter"><option value="all" {% if preference.task_list_filter == 'all' %}selected{% endif %}>All</option><option value="self" {% if preference.task_list_filter == 'self' %}selected{% endif %}>Self</option></select>
+      <label for="work_package_list_filter">Work-package list</label>
+      <select id="work_package_list_filter" name="work_package_list_filter"><option value="all" {% if preference.work_package_list_filter == 'all' %}selected{% endif %}>All</option><option value="self" {% if preference.work_package_list_filter == 'self' %}selected{% endif %}>Self</option></select>
+      <div class="preferences-form-actions"><button type="submit">Save list filters</button></div>
+    </form>
+    {% else %}
+    <form class="preferences-form card" method="post" action="{{ url_for('main.update_preferences') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="section" value="grid_widths">
+      <p>Defaults come from product configuration. Widths must be between 60 and 800 pixels.</p>
+      {% for grid,label in [('task','Task grid'),('work_package','Work Package grid'),('search','Search Result grid')] %}
+      <fieldset class="width-group"><legend>{{ label }}</legend>
+        {% for column,default in grid_defaults[grid].items() %}<label for="width_{{ grid }}_{{ column }}">{{ column|replace('_',' ')|title }}</label><input id="width_{{ grid }}_{{ column }}" type="number" min="60" max="800" name="width_{{ grid }}_{{ column }}" value="{{ grid_widths[grid][column] }}">{% endfor %}
+      </fieldset>
+      {% endfor %}
+      <div class="preferences-form-actions"><button type="submit">Save grid widths</button><button type="submit" name="restore_grid_defaults" value="1" class="secondary-button restore-grid-defaults">Restore grid defaults</button></div>
+    </form>
+    {% endif %}
+  </section>
+</div>
 {% endblock %}

@@ -19,6 +19,24 @@ const setFullPageMode = (enabled) => {
 enterFullPage?.addEventListener("click", () => setFullPageMode(true));
 exitFullPage?.addEventListener("click", () => setFullPageMode(false));
 
+const preferencesLayout = document.querySelector("[data-preferences-layout]");
+const setPreferencesSidebarCollapsed = (collapsed) => {
+  if (!preferencesLayout) return;
+  preferencesLayout.classList.toggle("preferences-sidebar-collapsed", collapsed);
+  const collapseButton = document.querySelector("[data-collapse-preferences]");
+  const expandButton = document.querySelector("[data-expand-preferences]");
+  collapseButton?.setAttribute("aria-expanded", String(!collapsed));
+  expandButton?.setAttribute("aria-expanded", String(collapsed));
+  (collapsed ? expandButton : collapseButton)?.focus();
+};
+
+document.querySelector("[data-collapse-preferences]")?.addEventListener("click", () => {
+  setPreferencesSidebarCollapsed(true);
+});
+document.querySelector("[data-expand-preferences]")?.addEventListener("click", () => {
+  setPreferencesSidebarCollapsed(false);
+});
+
 document.addEventListener("submit", (event) => {
   if (!document.body.classList.contains("full-page-mode")) return;
   const form = event.target;
