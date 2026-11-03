@@ -1,8 +1,8 @@
 {
   "app_name": "Zentra Task Hub",
   "brand_name": "Zentra ToDo Manager",
-  "version": "v0.1.2",
-  "build_number": "+20261103.2339",
+  "version": "v0.1.4",
+  "build_number": "+20261104.0037",
   "about": "Zentra helps teams organize and complete personal and department work through secure task management.",
   "features": [
     "Department-scoped task lists with search and All or Self views.",
