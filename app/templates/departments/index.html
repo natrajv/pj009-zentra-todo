@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Departments{% endblock %}
 {% block content %}
+<nav class="breadcrumbs" aria-label="Breadcrumb"><span aria-current="page">Departments</span></nav>
 <h1>Departments</h1>
 <p>Select a department you are authorized to access. Your selection is remembered for your next sign-in.</p>
 {% if active_department %}<p class="active-context">Current department: <strong>{{ active_department.name }}</strong></p>{% endif %}

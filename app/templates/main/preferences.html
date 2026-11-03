@@ -1,22 +1,16 @@
 {% extends "base.html" %}
 {% block title %}Preferences{% endblock %}
 {% block content %}
-<section class="card narrow" aria-labelledby="preferences-heading">
-  <h1 id="preferences-heading">List preferences</h1>
-  <p>These choices are remembered for your next sign-in. They do not change your access permissions.</p>
-  <form method="post" action="{{ url_for('main.update_preferences') }}">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <label for="task_list_filter">Task list</label>
-    <select id="task_list_filter" name="task_list_filter">
-      <option value="all" {% if preference.task_list_filter == 'all' %}selected{% endif %}>All</option>
-      <option value="self" {% if preference.task_list_filter == 'self' %}selected{% endif %}>Self</option>
-    </select>
-    <label for="work_package_list_filter">Work-package list</label>
-    <select id="work_package_list_filter" name="work_package_list_filter">
-      <option value="all" {% if preference.work_package_list_filter == 'all' %}selected{% endif %}>All</option>
-      <option value="self" {% if preference.work_package_list_filter == 'self' %}selected{% endif %}>Self</option>
-    </select>
-    <button type="submit">Save preferences</button>
+<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{{ url_for('tasks.index') }}">Tasks</a><span aria-hidden="true">›</span><span aria-current="page">Preferences</span></nav>
+<section class="card preferences-page" aria-labelledby="preferences-heading">
+  <h1 id="preferences-heading">Preferences</h1><p>These choices are saved to your account and do not change your access permissions.</p>
+  <form method="post" action="{{ url_for('main.update_preferences') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <h2>List filters</h2>
+    <label for="task_list_filter">Task list</label><select id="task_list_filter" name="task_list_filter"><option value="all" {% if preference.task_list_filter == 'all' %}selected{% endif %}>All</option><option value="self" {% if preference.task_list_filter == 'self' %}selected{% endif %}>Self</option></select>
+    <label for="work_package_list_filter">Work-package list</label><select id="work_package_list_filter" name="work_package_list_filter"><option value="all" {% if preference.work_package_list_filter == 'all' %}selected{% endif %}>All</option><option value="self" {% if preference.work_package_list_filter == 'self' %}selected{% endif %}>Self</option></select>
+    <h2>Grid column widths (pixels)</h2><p>Defaults are provided by the product configuration. Widths must be between 60 and 800 pixels.</p>
+    {% for grid,label in [('task','Task grid'),('work_package','Work Package grid'),('search','Search Result grid')] %}<fieldset class="width-group"><legend>{{ label }}</legend>{% for column,default in grid_defaults[grid].items() %}<label for="width_{{ grid }}_{{ column }}">{{ column|replace('_',' ')|title }}</label><input id="width_{{ grid }}_{{ column }}" type="number" min="60" max="800" name="width_{{ grid }}_{{ column }}" value="{{ grid_widths[grid][column] }}">{% endfor %}</fieldset>{% endfor %}
+    <button type="submit">Save preferences</button><button type="submit" name="restore_grid_defaults" value="1" class="secondary-button">Restore grid defaults</button>
   </form>
 </section>
 {% endblock %}

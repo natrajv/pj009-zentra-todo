@@ -140,6 +140,7 @@ class UserPreference(db.Model):
     work_package_list_filter = db.Column(
         db.String(10), nullable=False, default="all", server_default="all"
     )
+    grid_widths = db.Column(JSON, nullable=False, default=dict, server_default="{}")
     updated_at = db.Column(
         db.DateTime(timezone=True),
         nullable=False,
@@ -173,12 +174,8 @@ class AuditEvent(db.Model):
 class Task(TimestampMixin, db.Model):
     __tablename__ = "tasks"
     __table_args__ = (
-        CheckConstraint(
-            "status IN ('open', 'in_progress', 'completed')", name="ck_task_status"
-        ),
-        CheckConstraint(
-            "priority IN ('low', 'normal', 'high', 'urgent')", name="ck_task_priority"
-        ),
+        CheckConstraint("status IN ('open', 'in_progress', 'completed')", name="ck_task_status"),
+        CheckConstraint("priority IN ('low', 'normal', 'high', 'urgent')", name="ck_task_priority"),
     )
 
     id = db.Column(db.Integer, primary_key=True)

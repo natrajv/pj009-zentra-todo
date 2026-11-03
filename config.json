@@ -1,0 +1,18 @@
+{
+  "app_name": "Zentra Task Hub",
+  "brand_name": "Zentra ToDo Manager",
+  "version": "v0.1.1",
+  "build_number": "+20261102.0001",
+  "about": "Zentra helps teams organize and complete personal and department work through secure task management.",
+  "features": [
+    "Department-scoped task lists with search and All or Self views.",
+    "Task assignment, status, priority, due dates, and task details.",
+    "Per-user preferences and accessible navigation.",
+    "Secure multi-department membership and role-based access."
+  ],
+  "grid_defaults": {
+    "task": {"task": 220, "description": 260, "status": 110, "priority": 100, "assignee": 150, "due_date": 110, "created_by": 150, "created": 100, "actions": 100},
+    "work_package": {"work_package": 220, "description": 260, "status": 110, "owner": 150, "planned_start": 120, "planned_end": 120, "actions": 100},
+    "search": {"task": 220, "description": 260, "status": 110, "priority": 100, "assignee": 150, "due_date": 110, "created_by": 150, "created": 100, "view": 100}
+  }
+}

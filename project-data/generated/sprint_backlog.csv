@@ -1,0 +1,34 @@
+﻿Sl.,Sprint Backlog ID,Product Backlog,UC ID,Product Backlog Description,Backlog Type,Sprint Seq.,Resource Type,Module,Version,Planned Manhours,Progressive Manhours,Status,LUD
+1.0,SBL-0001,PBL-0001,UC-01-0,Authenticate and end session,Feature,1,,,v0.1.0,,,Realised,2026-11-02
+2.0,SBL-0002,PBL-0002,UC-02-0,Administer users and departments,Feature,1,,,v0.1.0,,,Partially Realised,2026-11-02
+,SBL-0003,PBL-0003,UC-03-0,Manage memberships and switch department,Feature,1,,,v0.1.0,,,Realised,2026-11-02
+,SBL-0004,PBL-0004,UC-05-0,Create and manage scoped tasks/work packages,Feature,1,,,v0.1.0,,,Partially Realised,2026-11-02
+,SBL-0005,PBL-0005,UC-06-0,Update own assigned task,Feature,1,,,v0.1.0,,,Partially Realised,2026-11-02
+,SBL-0006,PBL-0006,UC-07-0,"Search, filter, and view work",Feature,1,,,v0.1.0,,,Realised,2026-11-02
+,SBL-0007,PBL-0007,UC-17-0,Use accessible responsive interface,Feature,1,,,v0.1.0,,,Partially Realised,2026-11-02
+,SBL-0008,PBL-0008,,"Left Navigation Rail: Rename ""Work Package"" to ""WP""",Enhancement,2,,,v0.1.1w,,,Progress,
+,SBL-0009,PBL-0009,,"Left Navigation Rail: Change logos for Task, WP",Enhancement,2,,,v0.1.1w,,,,
+,SBL-0010,PBL-0010,,App Header: Add logo for Zentra ToDo Manager on App Header,Enhancement,2,,,v0.1.1w,,,,
+,SBL-0011,PBL-0011,,"App Header: Move User logo, Preferences from App Header to Left navigation rail",Enhancement,2,,,v0.1.1w,,,,
+,SBL-0012,PBL-0012,,"App Header: Remove Departments, Tasks from App Header",Enhancement,2,,,v0.1.1w,,,,
+,SBL-0013,PBL-0013,,App Header: App Header to include app name in single line with minimal space,Enhancement,2,,,v0.1.1w,,,,
+,SBL-0014,PBL-0014,,"App Header: App name is ""Zentra Task Hub"" followed by version number",Enhancement,2,,,v0.1.1w,,,,
+,SBL-0015,PBL-0015,,"App Header: Add ""About"", ""Features""",Feature,2,,,v0.1.1w,,,,
+,SBL-0016,PBL-0016,,"App Header: ""About"" to show short brief of app functionality, Version number and Build number from config file.",Feature,2,,,v0.1.1w,,,,
+,SBL-0017,PBL-0017,,"App Header: ""Features"" to show detailed functionality of Zentra. Take data from config file. ",Feature,2,,,v0.1.1w,,,,
+,SBL-0018,PBL-0018,,App Header: Make Task page as home page,Enhancement,2,,,v0.1.1w,,,,
+,SBL-0019,PBL-0019,,App Header: Onclick app logo to land home page,Enhancement,2,,,v0.1.1w,,,,
+,SBL-0020,PBL-0020,,"Data Grid: Change ""Due Date"", ""Created"" columns date format {dd-mm-yy}",Enhancement,2,,,v0.1.1w,,,,
+,SBL-0021,PBL-0021,,Data Grid: Adjustable column width. Remember column width across sessions,Enhancement,2,,,v0.1.1w,,,,
+,SBL-0022,PBL-0022,,Data Grid: Columns to be sortable,Enhancement,2,,,v0.1.1w,,,,
+,SBL-0023,PBL-0023,,Data Grid: Delete confirmation dialogbox partially not visible.,Bug,2,,,v0.1.1w,,,,
+,SBL-0024,PBL-0024,,Data Grid: Task detail to include respective Work Package details,Enhancement,2,,,v0.1.1w,,,,
+,SBL-0025,PBL-0025,,Data Grid: Onclick on Search grid rows not working. Onclick to show task details.,Enhancement,2,,,v0.1.1w,,,,
+,SBL-0026,PBL-0026,,Main Content Header: Add bread crumb navigation,Feature,2,,,v0.1.1w,,,,
+,SBL-0027,PBL-0027,,"Configuration file: Configuration file is ""config.json""",Feature,2,,,v0.1.1w,,,,
+,SBL-0028,PBL-0028,,Configuration file: App name is hardcoded,Enhancement,2,,,v0.1.1w,,,,
+,SBL-0029,PBL-0029,,Configuration file: App version from config file,Enhancement,2,,,v0.1.1w,,,,
+,SBL-0030,PBL-0030,,Configuration file: List of features be generated and stored.,Enhancement,2,,,v0.1.1w,,,,
+,SBL-0031,PBL-0031,,Configuration file: Add build number ,Enhancement,2,,,v0.1.1w,,,,
+,SBL-0032,PBL-0032,,Configuration file: Add version number,Enhancement,2,,,v0.1.1w,,,,
+,SBL-0033,PBL-0033,,"Preferences: Data Grids of Task, Work Package, Search Result columns size to be configurable under ""Preferences"". Default values to be set in ""config.json"" and to be used to restore default values. ",Feature,2,,,v0.1.1w,,,,

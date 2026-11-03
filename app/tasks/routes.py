@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import date
 
-from flask import abort, flash, g, redirect, render_template, request, url_for
+from flask import abort, current_app, flash, g, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from sqlalchemy import String, cast, func, or_, select
 
@@ -47,6 +47,20 @@ def index():
     selected_filter = preference.task_list_filter if preference else "all"
     search = request.args.get("q", "").strip()[:120]
     page = max(request.args.get("page", 1, type=int), 1)
+    sortable = {
+        "title": Task.title,
+        "description": Task.description,
+        "status": Task.status,
+        "priority": Task.priority,
+        "due_date": Task.due_date,
+        "created": Task.created_at,
+        "assignee": Task.assignee_user_id,
+        "created_by": Task.created_by_user_id,
+    }
+    sort = request.args.get("sort", "due_date")
+    direction = request.args.get("direction", "asc")
+    if sort not in sortable or direction not in {"asc", "desc"}:
+        abort(400)
 
     conditions = [
         Task.department_id == g.active_department.id,
@@ -56,9 +70,7 @@ def index():
         conditions.append(Task.assignee_user_id == current_user.id)
     if search:
         pattern = f"%{search}%"
-        conditions.append(
-            or_(Task.title.ilike(pattern), Task.description.ilike(pattern))
-        )
+        conditions.append(or_(Task.title.ilike(pattern), Task.description.ilike(pattern)))
 
     total = db.session.scalar(select(func.count(Task.id)).where(*conditions)) or 0
     page_count = max((total + PAGE_SIZE - 1) // PAGE_SIZE, 1)
@@ -66,12 +78,22 @@ def index():
     tasks = db.session.scalars(
         select(Task)
         .where(*conditions)
-        .order_by(Task.due_date.is_(None), Task.due_date, Task.created_at.desc())
+        .order_by(sortable[sort].desc() if direction == "desc" else sortable[sort].asc())
         .offset((page - 1) * PAGE_SIZE)
         .limit(PAGE_SIZE)
     ).all()
     selected_id = request.args.get("selected", type=int)
-    selected_task = next((task for task in tasks if task.id == selected_id), None)
+    selected_task = (
+        db.session.scalar(
+            select(Task).where(
+                Task.id == selected_id,
+                Task.department_id == g.active_department.id,
+                Task.is_archived.is_(False),
+            )
+        )
+        if selected_id
+        else None
+    )
     mode = request.args.get("mode", "view")
     can_assign = can_manage_department(current_user, g.active_department)
     assignees = _active_department_users(g.active_department.id) if can_assign else []
@@ -101,6 +123,12 @@ def index():
         mode=mode,
         page_count=page_count,
         page_numbers=range(max(1, page - 2), min(page_count, page + 2) + 1),
+        grid_widths={
+            **current_app.config["PRODUCT_CONFIG"]["grid_defaults"]["task"],
+            **((preference.grid_widths or {}).get("task", {}) if preference else {}),
+        },
+        sort=sort,
+        direction=direction,
     )
 
 
@@ -112,7 +140,12 @@ def work_packages():
         return no_department
     # Work packages are a later data-model phase; keep the workspace navigable
     # without fabricating rows or implying CRUD support that does not exist.
-    return render_template("tasks/work_packages.html")
+    preference = db.session.get(UserPreference, current_user.id)
+    widths = {
+        **current_app.config["PRODUCT_CONFIG"]["grid_defaults"]["work_package"],
+        **((preference.grid_widths or {}).get("work_package", {}) if preference else {}),
+    }
+    return render_template("tasks/work_packages.html", grid_widths=widths)
 
 
 @bp.get("/search")
@@ -123,13 +156,29 @@ def search():
         return no_department
     search_text = request.args.get("q", "").strip()[:120]
     page = max(request.args.get("page", 1, type=int), 1)
+    sortable = {
+        "title": Task.title,
+        "description": Task.description,
+        "status": Task.status,
+        "priority": Task.priority,
+        "due_date": Task.due_date,
+        "created": Task.created_at,
+        "assignee": Task.assignee_user_id,
+        "created_by": Task.created_by_user_id,
+    }
+    sort = request.args.get("sort", "created")
+    direction = request.args.get("direction", "desc")
+    if sort not in sortable or direction not in {"asc", "desc"}:
+        abort(400)
     conditions = [Task.department_id == g.active_department.id, Task.is_archived.is_(False)]
     if search_text:
         pattern = f"%{search_text}%"
         conditions.append(
             or_(
-                Task.title.ilike(pattern), Task.description.ilike(pattern),
-                Task.status.ilike(pattern), Task.priority.ilike(pattern),
+                Task.title.ilike(pattern),
+                Task.description.ilike(pattern),
+                Task.status.ilike(pattern),
+                Task.priority.ilike(pattern),
                 cast(Task.due_date, String).ilike(pattern),
                 Task.assignee.has(User.display_name.ilike(pattern)),
                 Task.created_by.has(User.display_name.ilike(pattern)),
@@ -139,12 +188,32 @@ def search():
     page_count = max((total + PAGE_SIZE - 1) // PAGE_SIZE, 1)
     page = min(page, page_count)
     tasks = db.session.scalars(
-        select(Task).where(*conditions).order_by(Task.created_at.desc())
-        .offset((page - 1) * PAGE_SIZE).limit(PAGE_SIZE)
+        select(Task)
+        .where(*conditions)
+        .order_by(sortable[sort].desc() if direction == "desc" else sortable[sort].asc())
+        .offset((page - 1) * PAGE_SIZE)
+        .limit(PAGE_SIZE)
     ).all()
     return render_template(
-        "tasks/search.html", tasks=tasks, search=search_text, total=total, page=page,
-        page_count=page_count, page_numbers=range(max(1, page - 2), min(page_count, page + 2) + 1),
+        "tasks/search.html",
+        tasks=tasks,
+        search=search_text,
+        total=total,
+        page=page,
+        page_count=page_count,
+        page_numbers=range(max(1, page - 2), min(page_count, page + 2) + 1),
+        grid_widths={
+            **current_app.config["PRODUCT_CONFIG"]["grid_defaults"]["search"],
+            **(
+                (db.session.get(UserPreference, current_user.id).grid_widths or {}).get(
+                    "search", {}
+                )
+                if db.session.get(UserPreference, current_user.id)
+                else {}
+            ),
+        },
+        sort=sort,
+        direction=direction,
     )
 
 
@@ -231,11 +300,7 @@ def update_status(task_id: int):
         return no_department
 
     task = db.session.get(Task, task_id)
-    if (
-        task is None
-        or task.department_id != g.active_department.id
-        or task.is_archived
-    ):
+    if task is None or task.department_id != g.active_department.id or task.is_archived:
         abort(404)
     if not can_update_task(current_user, g.active_department, task.assignee_user_id):
         abort(404)

@@ -36,7 +36,7 @@ The Phase 1 implementation uses `global_roles` and the `user_global_roles` assoc
 
 Revalidate `last_department_id` against active membership whenever restored.
 
-The Phase 1 implementation also stores independent `task_list_filter` and `work_package_list_filter` values, each constrained to `all` or `self`.
+The Phase 1 implementation also stores independent `task_list_filter` and `work_package_list_filter` values, each constrained to `all` or `self`. Sprint 2 adds `grid_widths` JSON for validated per-user overrides to the configured Task, Work Package, and Search Result grid widths. An absent override uses the current `config.json` default.
 
 ### `work_packages`
 

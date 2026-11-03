@@ -100,3 +100,11 @@ The first administrator is created explicitly with the interactive `create-maste
 ## 12. Database-viewer workspace presentation
 
 Authenticated pages use a compact left navigation rail for Tasks, Work Package, and Search. The task page presents a paginated read-only table with row actions; selecting a row opens a view dialog, Control-click opens its edit dialog, and Create Task opens a create dialog. The Search page scopes matching across task fields to the active department, with the search panel above the result table. Master identity lists are presented as data tables. Work Package navigation currently opens an explicitly empty table because no work-package persistence or CRUD behavior is implemented yet; this is a UI destination only.
+
+## 13. Sprint 2 v0.1.1 presentation and product configuration
+
+The shared shell uses a compact single-line header with product identity from the root `config.json`; About and Features render content from that same validated configuration. This file contains public product metadata, descriptive feature text, and default pixel widths only. Secrets, deployment paths, and connection settings remain in environment configuration. Missing or malformed product configuration prevents app startup with a descriptive error.
+
+The authenticated home/logo target is the task workspace. The left rail contains Tasks, WP, Search, Preferences, account access, and authorized administration. Data grids expose sortable headers and adjustable columns. The current user’s widths are stored in `user_preferences.grid_widths` as JSON and are validated against the configured grid/column names and 60–800 pixel bounds. A migration adds this field with an empty-object default; configured defaults are applied at render time and the Preferences action clears overrides to restore them.
+
+Tasks do not yet have a work-package foreign key or work-package records. Sprint 2 task details explicitly report that associations are unavailable; adding the relationship and WP persistence is deferred to the work-package implementation phase.

@@ -100,3 +100,34 @@ Validation:
 
 At completion, summarize changed files, migration/setup instructions, validation results, and remaining decisions. Do not claim later phases are complete.
 ```
+
+---
+
+## Sprint 2 Implementation Prompt — v0.1.1 presentation and configuration
+
+```text
+Implement Sprint 2 v0.1.1 only for Zentra, covering SBL-0008 through SBL-0033 in docs/requirements.md. Read AGENTS.md and relevant docs first, inspect the existing code, and preserve current work and conventions. This phase is limited to shared navigation/header, product metadata/About/Features, Task landing page, breadcrumbs, task grid and task detail/search behavior, delete confirmation layout, and per-user grid width preferences.
+
+Before coding:
+1. Report the current repository structure, relevant implementation, tests, and any mismatch between the backlog and current code.
+2. State the precise scope, assumptions, and expected files to change.
+3. Use docs/requirements.md Sprint 2 acceptance criteria as the definition of done.
+
+Requirements:
+- Rename Work Package navigation to WP and provide clear, accessible Task and WP icons. Move account and Preferences entry points to the left rail. Remove Departments and Tasks links from the app header.
+- Provide a compact single-line header with a project-owned Zentra ToDo Manager brand logo and configured “Zentra Task Hub” app name followed by its version. Clicking the logo sends authenticated users to Tasks. Tasks is the authenticated home page.
+- Add About and Features destinations. Load the About summary, detailed Features content, app name, version, build number, and default grid widths from a root `config.json`. Validate config shape/types at startup or loading; report invalid or missing settings clearly. Do not put secrets, credentials, or environment-specific database paths in this file. Keep product name, version, and build as distinct fields even if rendered together.
+- Add breadcrumbs for the active page/context.
+- Render Due Date and Created grid values as `dd-mm-yy`. Make columns sortable and resizable. Persist widths per user across sessions for Task, Work Package, and Search Result grids; expose these settings under Preferences and provide a restore-defaults action using `config.json` defaults. Validate submitted preference keys/widths server-side. Use a versioned migration if persistence needs schema changes; do not reset or recreate databases.
+- Make search result rows open the correct authorized task details. Include associated Work Package details in task detail when a relationship exists; if the current schema has no such relationship, document that dependency and implement only a safe compatible path within this sprint, without inventing unrelated WP management.
+- Fix the delete confirmation clipping so the complete interaction is visible and keyboard accessible.
+- Maintain active-department and task authorization on every detail route. UI visibility and preferences must not grant access.
+- Add focused tests for the acceptance criteria, including negative authorization where routes/details are involved. Update docs for design decisions.
+
+Constraints:
+- Do not implement unrelated work-package CRUD, routine scheduling, exports, archive, demo, backup/restore, or ontology integration.
+- Do not hardcode product metadata in templates as a fallback for broken config. Keep safe operational fallbacks explicit and testable.
+- Preserve existing database content and use migrations for any schema changes.
+
+Validate the focused tests and applicable project checks; report exact commands and results. Summarize changed files, behavior, migration/operational impact, and follow-up decisions. Do not claim Sprint 2 items outside SBL-0008–SBL-0033 are complete.
+```

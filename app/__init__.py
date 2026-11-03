@@ -67,6 +67,10 @@ def create_app(test_config: dict[str, Any] | None = None) -> Flask:
             return redirect(url_for("auth.login"))
         return redirect(url_for("tasks.index"))
 
+    @app.context_processor
+    def inject_product_config():
+        return {"product": app.config["PRODUCT_CONFIG"]}
+
     @app.before_request
     def refresh_department_context() -> None:
         g.active_department = None
@@ -87,8 +91,10 @@ def create_app(test_config: dict[str, Any] | None = None) -> Flask:
             return
 
         department = db.session.get(Department, department_id)
-        if department is None or not department.is_active or not can_access_department(
-            current_user, department
+        if (
+            department is None
+            or not department.is_active
+            or not can_access_department(current_user, department)
         ):
             session.pop("active_department_id", None)
             return

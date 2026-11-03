@@ -1,10 +1,10 @@
-# Zentra ToDo Manager (v0.1.0)  
+# Zentra Task Hub (v0.1.1)
 Daily tasks manager for office and personal   
-Version: v0.1.0, Build: +20261101.1419
+Version: v0.1.1, Build: +20261102.0001
 
-## Phase 1: foundation and identity
+## v0.1.1: presentation and configuration
 
-The foundation is a Flask application with SQLite, SQLAlchemy, versioned Alembic migrations, login, department memberships/switching, and persistent list preferences. Department-scoped task lists, search, status updates, and task details are available. Work-package management remains a later phase.
+Zentra uses Flask, SQLite, SQLAlchemy, and versioned Alembic migrations, with login, department memberships/switching, scoped task lists, search, status updates, and task details. The shared shell, About/Features pages, and product metadata/default grid widths are configured in `config.json`. Per-user grid widths are saved in SQLite. Work-package management and task-to-work-package links remain a later phase.
 
 ### Local setup
 

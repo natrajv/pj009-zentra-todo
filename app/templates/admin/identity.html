@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Identity setup{% endblock %}
 {% block content %}
+<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{{ url_for('tasks.index') }}">Tasks</a><span aria-hidden="true">›</span><span aria-current="page">Administration</span></nav>
 <h1>Department and user setup</h1>
 <p>Only Master Admin can create departments, user accounts, and department memberships.</p>
 

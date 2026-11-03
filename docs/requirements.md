@@ -2,6 +2,7 @@
 
 **Status:** Planning baseline  
 **Product:** Zentra Task Manager  
+**Current release baseline:** v0.1.0
 **Tagline:** Organize. Execute. Achieve.
 
 ## 1. Purpose and scope
@@ -101,3 +102,48 @@ All access is limited to active department membership except Master Admin operat
 8. Demo login resets only isolated demo data, including when two demo sessions overlap.
 9. Only Master Admin can complete tested backup and restore workflows, with integrity and audit checks.
 10. The OWL ontology loads and validates independently of the operational database.
+
+## 6. Sprint 2 backlog — v0.1.1
+
+This is the requested next implementation scope. It is a backlog, not a statement that the functionality is implemented. Preserve the existing Flask/SQLite architecture, authorization rules, accessible UI, and migration policy. Do not pull unrelated planned modules into Sprint 2.
+
+| ID | Area | Requirement | Type |
+|---|---|---|---|
+| SBL-0008 | Left navigation | Rename “Work Package” to “WP”. | Enhancement |
+| SBL-0009 | Left navigation | Use distinct, recognizable Task and WP icons/logos with accessible names. | Enhancement |
+| SBL-0010 | App header | Add the Zentra ToDo Manager brand logo. | Enhancement |
+| SBL-0011 | App header/navigation | Move the user account and Preferences entry points from the header into the left navigation rail. Keep account details and sign-out reachable. | Enhancement |
+| SBL-0012 | App header | Remove Departments and Tasks links from the app header. | Enhancement |
+| SBL-0013 | App header | Display the app name on one line with compact spacing. | Enhancement |
+| SBL-0014 | App header | Use the configured product name “Zentra Task Hub”, followed by the version number. | Enhancement |
+| SBL-0015 | App header | Add About and Features destinations. | Feature |
+| SBL-0016 | About | Show a short functionality summary, version, and build number sourced from configuration. | Feature |
+| SBL-0017 | Features | Show the detailed product feature list sourced from configuration. | Feature |
+| SBL-0018 | Home | Make the Task page the authenticated landing page. | Enhancement |
+| SBL-0019 | Home | Clicking the app logo navigates to the Task page for authenticated users. | Enhancement |
+| SBL-0020 | Data grid | Format Due Date and Created dates as `dd-mm-yy`. | Enhancement |
+| SBL-0021 | Data grid | Allow column resizing and persist each user's widths across sessions. | Enhancement |
+| SBL-0022 | Data grid | Make data-grid columns sortable. | Enhancement |
+| SBL-0023 | Data grid | Fix the task delete confirmation so it is fully visible and usable in the viewport. | Bug |
+| SBL-0024 | Task details | Include the associated Work Package details when a task belongs to a work package. | Enhancement |
+| SBL-0025 | Search | Make search result rows open the corresponding task details. | Enhancement |
+| SBL-0026 | Main content | Add breadcrumb navigation reflecting the current page/context. | Feature |
+| SBL-0027 | Configuration | Use a `config.json` file for product metadata, feature descriptions, and default grid settings. | Feature |
+| SBL-0028 | Configuration | Read the app name from configuration rather than hardcoding it. | Enhancement |
+| SBL-0029 | Configuration | Read the app version from configuration. | Enhancement |
+| SBL-0030 | Configuration | Store the detailed feature list in configuration for display on the Features page. | Enhancement |
+| SBL-0031 | Configuration | Store the build number in configuration. | Enhancement |
+| SBL-0032 | Configuration | Store the version number in configuration. | Enhancement |
+| SBL-0033 | Preferences | Let users configure Task, Work Package, and Search Result grid column widths in Preferences. Supply defaults in `config.json` and provide a restore-defaults action. | Feature |
+
+### Sprint 2 acceptance criteria
+
+1. Authenticated navigation uses the WP label, distinct Task/WP icons, and places account and Preferences access on the left rail; the header contains no Departments or Tasks links.
+2. The compact header displays the configured “Zentra Task Hub” name and version on one line. The brand logo returns an authenticated user to Tasks.
+3. About and Features pages render their content from `config.json`, including version and build metadata. Missing or invalid configuration fails safely with a clear operational error rather than silently displaying stale hardcoded metadata.
+4. Tasks is the authenticated home page. Breadcrumbs identify the current page and preserve useful navigation context.
+5. Task grid date values use `dd-mm-yy`. Columns can be sorted and resized; widths remain per-user and persist across sessions. Preferences exposes widths for Task, WP, and Search Result grids and can restore the configured defaults.
+6. Opening a task detail shows its linked WP summary when one exists. Search result rows open the matching task detail.
+7. Delete confirmation remains fully visible at supported viewport sizes and is keyboard accessible.
+8. Grid sorting, resizing, and preference updates do not broaden record visibility or alter server-side authorization. Persist user-owned grid preferences through the existing persistence approach or a versioned migration, as appropriate; never recreate the database.
+9. Add focused tests for config loading/rendering, authenticated navigation/home routing, date formatting, task-detail/search navigation, grid preference persistence/default restoration, and the relevant access boundaries. Update docs to record implementation decisions.

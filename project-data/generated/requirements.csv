@@ -1,0 +1,54 @@
+﻿Sl.,requirement_id,category,requirement,use_case_ids,version_planned,version_achieved,status
+1,FR-001,Identity and department context,Users can authenticate and log out.,UC-01,0.2.0,0.1.0,Realized
+2,FR-002,Identity and department context,"Master Admin can create, update, deactivate, and manage user accounts and departments.",UC-02,0.2.0,0.1.0,Partially realized
+3,FR-003,Identity and department context,A user can belong to multiple departments through explicit memberships.,UC-03,0.2.0,0.1.0,Realized
+4,FR-004,Identity and department context,A user can switch to any currently authorized department.,UC-03,0.2.0,0.1.0,Realized
+5,FR-005,Identity and department context,The last selected department is remembered and restored on a later login only if membership remains active.,"UC-01, UC-03",0.2.0,0.1.0,Realized
+6,FR-006,Identity and department context,Users can view the directory of users in the active department. They cannot enumerate unrelated departments.,UC-04,0.2.0,,Planned
+7,FR-007,Identity and department context,Directory visibility does not grant permission to modify another user’s tasks or account.,"UC-04, UC-06",0.2.0,0.1.0,Partially realized
+8,FR-008,Tasks and work packages,Authorized users can create and view tasks and work packages within their department scope.,"UC-05, UC-07",0.3.0,0.1.0,Partially realized
+9,FR-009,Tasks and work packages,"Department Admin can create, assign, update, and archive department tasks and work packages.","UC-05, UC-08",0.3.0,0.1.0,Partially realized
+10,FR-010,Tasks and work packages,A User can update only tasks assigned to that authenticated user. The server checks ownership on every update.,UC-06,0.2.0,0.1.0,Realized
+11,FR-011,Tasks and work packages,Task and work-package lists provide text search over relevant displayed fields.,UC-07,0.3.0,0.1.0,Partially realized
+12,FR-012,Tasks and work packages,"Task lists and work-package lists each provide **All | Self** filters. “Self” limits results to records assigned to or owned by the current user, as applicable.",UC-07,0.2.0,0.1.0,Partially realized
+13,FR-013,Tasks and work packages,The task filter and work-package filter are remembered separately per user across sessions.,UC-07,0.2.0,0.1.0,Realized
+14,FR-014,Tasks and work packages,Tasks and work packages can be archived and viewed in historical/archive views. Archive is reversible only through an authorized action and does not erase history.,UC-08,0.3.0,,Planned
+15,FR-015,Tasks and work packages,"Status, priority, due date, assignee, work package, and department are available where appropriate for a task. A work package has a title, description, status, owner, department, and planned dates.","UC-05, UC-07",0.3.0,0.1.0,Partially realized
+16,FR-016,Routine work,"Authorized administrators can define routine task and work-package templates with a schedule, effective dates, and generation rules.",UC-09,0.4.0,,Planned
+17,FR-017,Routine work,A scheduler creates due instances from active templates.,UC-10,0.4.0,,Planned
+18,FR-018,Routine work,Repeated scheduler execution must not create duplicate instances for the same template and scheduled occurrence.,UC-10,0.4.0,,Planned
+19,FR-019,Routine work,Generated records retain provenance to the template and scheduled occurrence that created them.,UC-10,0.4.0,,Planned
+20,FR-020,Exports and reports,"Users can export the currently displayed, filtered task list to Excel and PDF.",UC-11,0.5.0,,Planned
+21,FR-021,Exports and reports,Exports apply the same department and row-level authorization as the screen and include the selected filters and generation time.,UC-11,0.5.0,,Planned
+22,FR-022,Exports and reports,"Export actions are auditable. Exports must not expose hidden rows through formulas, metadata, or alternate sheets.",UC-11,0.5.0,,Planned
+23,FR-023,Demo mode,The system provides a designated demo user and a demo database suitable for training.,UC-12,0.6.0,,Planned
+24,FR-024,Demo mode,Demo data is isolated from all production data and credentials.,UC-12,0.6.0,,Planned
+25,FR-025,Demo mode,"Demo state is reset on each demo login, using a concurrency-safe process. Active demo sessions must not overwrite one another or production state.",UC-12,0.6.0,,Planned
+26,FR-026,Demo mode,Demo accounts cannot perform production backup or restore and cannot access production databases.,UC-12,0.6.0,,Planned
+27,FR-027,Backup and restore,Only Master Admin can request database backup or restore.,"UC-13, UC-14",0.7.0,,Planned
+28,FR-028,Backup and restore,"Backup creates a consistent, integrity-checked database copy with a timestamp and audit record.",UC-13,0.7.0,,Planned
+29,FR-029,Backup and restore,"Restore validates the backup and application schema version, requires an explicit administrative operation, and prevents writes against a database while it is being replaced.",UC-14,0.7.0,,Planned
+30,FR-030,Backup and restore,Backup files are protected from web access and are covered by documented retention and recovery procedures.,"UC-13, UC-14, UC-16",0.7.0,,Planned
+31,FR-031,Ontology,The project includes a versioned OWL ontology defining the domain vocabulary and selected constraints/relationships.,UC-15,0.8.0,,Planned
+32,FR-032,Ontology,"Ontology integration does not replace SQLite, service-layer validation, or application authorization.","UC-15, UC-05, UC-06",0.8.0,,Planned
+33,FR-033,Ontology,"Ontology individuals, if materialized, use stable identifiers that can map to relational records without storing sensitive personal data in the graph.",UC-15,0.8.0,,Planned
+34,NFR-001,Non-functional,"Apply least privilege, secure password storage, CSRF protection, output escaping, parameterized database access, and secure session handling.","UC-01, UC-02, UC-03, UC-05, UC-06, UC-11, UC-12, UC-13, UC-14",0.2.0–1.0.0,0.1.0,Partially realized
+35,NFR-002,Non-functional,Collect only data needed for the product. Limit directory information to the active department and intended fields.,"UC-04, UC-11, UC-12, UC-15",0.2.0–1.0.0,,Planned
+36,NFR-003,Non-functional,"Use foreign keys, uniqueness constraints, transactions, and migrations. Enforce business invariants in services and database constraints where possible.","UC-02, UC-03, UC-05, UC-08, UC-09, UC-10, UC-14",0.2.0–1.0.0,0.1.0,Partially realized
+37,NFR-004,Non-functional,"Scheduler jobs and restore workflows must be repeatable, observable, and recoverable.","UC-10, UC-14, UC-16",0.4.0–0.7.0,,Planned
+38,NFR-005,Non-functional,"Record actor, action, target, scope, timestamp, and outcome for administrative and security-sensitive operations.","UC-02, UC-05, UC-08, UC-11, UC-12, UC-13, UC-14",0.2.0–0.7.0,0.1.0,Partially realized
+39,NFR-006,Non-functional,"Provide keyboard-operable controls, labels, visible focus, and readable contrast.",UC-17,0.2.0–1.0.0,0.1.0,Partially realized
+40,NFR-007,Non-functional,"Use modular Flask structure, documented configuration, migrations, and automated tests.","UC-05, UC-09, UC-15, UC-16",0.2.0–1.0.0,0.1.0,Partially realized
+41,NFR-008,Non-functional,Keep deployment configuration external to source code; support a documented production WSGI deployment.,UC-16,0.9.0,,Planned
+42,NFR-009,Non-functional,Paginate large lists and apply search/filtering in the database. Establish measurable response targets during deployment planning.,"UC-07, UC-11, UC-18",0.3.0–0.9.0,0.1.0,Partially realized
+43,NFR-010,Non-functional,Store timestamps consistently (UTC recommended) and evaluate schedules in a configured IANA timezone.,"UC-09, UC-10, UC-18",0.4.0,0.1.0,Partially realized
+44,AC-001,Release acceptance,A user in two departments can switch between them and sees no data from a non-selected department.,"UC-03, UC-05, UC-07",1.0.0,0.1.0,Partially realized
+45,AC-002,Release acceptance,"A User can view active department members but cannot update a task assigned to another person, including by direct request.","UC-04, UC-06",1.0.0,0.1.0,Partially realized
+46,AC-003,Release acceptance,Department Admin can manage all scoped tasks/work packages for department members but cannot manage another department.,UC-05,1.0.0,,Planned
+47,AC-004,Release acceptance,"Search and All/Self filtering work for both lists, and each selection persists after logout/login.",UC-07,1.0.0,0.1.0,Partially realized
+48,AC-005,Release acceptance,Re-running a routine generator for the same occurrence creates no duplicates.,UC-10,1.0.0,,Planned
+49,AC-006,Release acceptance,Excel and PDF exports contain exactly the authorized displayed result set.,UC-11,1.0.0,,Planned
+50,AC-007,Release acceptance,Archive preserves records and history; normal lists exclude archived items unless requested.,UC-08,1.0.0,,Planned
+51,AC-008,Release acceptance,"Demo login resets only isolated demo data, including when two demo sessions overlap.",UC-12,1.0.0,,Planned
+52,AC-009,Release acceptance,"Only Master Admin can complete tested backup and restore workflows, with integrity and audit checks.","UC-13, UC-14",1.0.0,,Planned
+53,AC-010,Release acceptance,The OWL ontology loads and validates independently of the operational database.,UC-15,1.0.0,,Planned

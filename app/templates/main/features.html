@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block title %}Features{% endblock %}{% block content %}
+<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{{ url_for('tasks.index') }}">Tasks</a><span aria-hidden="true">›</span><span aria-current="page">Features</span></nav>
+<section class="card narrow"><h1>{{ product.app_name }} features</h1><ul>{% for feature in product.features %}<li>{{ feature }}</li>{% endfor %}</ul></section>
+{% endblock %}

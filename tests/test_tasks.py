@@ -40,9 +40,7 @@ def test_member_can_create_task_only_for_self_even_with_forged_assignee(client, 
         assert task is not None
         assert task.assignee_user_id == member_id
         assert task.department_id == department_id
-        assert db.session.scalar(
-            db.select(AuditEvent).where(AuditEvent.action == "task.create")
-        )
+        assert db.session.scalar(db.select(AuditEvent).where(AuditEvent.action == "task.create"))
 
 
 def test_department_admin_can_assign_and_user_can_update_only_own_task(app):
@@ -104,9 +102,7 @@ def test_department_admin_can_assign_and_user_can_update_only_own_task(app):
         f"/tasks/{member_task_id}/status", data={"status": "in_progress"}
     )
     assert own_update.status_code == 302 and "/tasks?selected=" in own_update.location
-    other_update = admin_client.post(
-        f"/tasks/{other_task_id}/status", data={"status": "completed"}
-    )
+    other_update = admin_client.post(f"/tasks/{other_task_id}/status", data={"status": "completed"})
     assert other_update.status_code == 404, (other_update.status_code, other_update.location)
     member_delete = admin_client.post(f"/tasks/{member_task_id}/delete")
     assert member_delete.status_code == 404
@@ -147,9 +143,7 @@ def test_task_list_search_and_self_filter_are_department_scoped(client, app):
         )
         db.session.commit()
         department_id = department.id
-        own_task_id = db.session.scalar(
-            db.select(Task.id).where(Task.title == "My weekly report")
-        )
+        own_task_id = db.session.scalar(db.select(Task.id).where(Task.title == "My weekly report"))
 
     login(client, "member")
     client.post(f"/departments/{department_id}/switch")
@@ -159,7 +153,7 @@ def test_task_list_search_and_self_filter_are_department_scoped(client, app):
     selected_response = client.get(f"/tasks?selected={own_task_id}&q=weekly")
     assert b"<h3>My weekly report</h3>" in selected_response.data
     assert b"task-table" in selected_response.data
-    assert b"<dialog class=\"task-dialog\" open" in selected_response.data
+    assert b'<dialog class="task-dialog" open' in selected_response.data
     search_page = client.get("/tasks/search?q=Secret")
     assert b"Secret finance task" not in search_page.data
     client.post("/tasks/filter", data={"task_list_filter": "self"})
@@ -230,7 +224,7 @@ def test_create_task_dialog_and_workspace_navigation(client, app):
     assert create_response.status_code == 200
     assert b"Create Task" in create_response.data
     assert b"/tasks/new" in create_response.data
-    assert b"Work Package" in create_response.data
+    assert b">WP<" in create_response.data
     assert b"Search" in create_response.data
 
     package_response = client.get("/tasks/work-packages")
