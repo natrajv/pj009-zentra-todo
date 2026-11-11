@@ -7,21 +7,21 @@
   <section class="task-list-heading content-search-region search-grid-toolbar" aria-labelledby="search-grid-heading">
     <h2 id="search-grid-heading">Task results · {{ total }}</h2>
     <div class="task-list-controls content-search-controls">
-      <form class="compact-search" method="get" action="{{ url_for('tasks.search') }}" role="search">
+      <search class="compact-search"><form class="inline-form compact-search-form" method="get" action="{{ url_for('tasks.search') }}">
         <label class="sr-only" for="search-query">Search all task columns</label>
         <input id="search-query" name="q" type="search" maxlength="120" value="{{ search }}" placeholder="Search this grid">
-        <button type="submit">Search</button><a class="search-clear-button" role="button" href="{{ url_for('tasks.search') }}">Clear</a>
-      </form>
+        <button type="submit">Search</button><a class="search-clear-button" href="{{ url_for('tasks.search') }}">Clear</a>
+      </form></search>
       <button class="full-page-toggle" type="button" data-enter-full-page aria-pressed="false" title="Show grid full page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5M3 3l6 6m12-6-6 6m6 12-6-6M3 21l6-6"/></svg><span>Full Page</span></button>
     </div>
   </section>
   <section class="search-results">
-    <div class="task-table-scroll" role="region" aria-label="Task search results" tabindex="0">
-      <table class="task-table" data-grid="search">
+    <div class="task-table-scroll" role="region" aria-labelledby="search-table-caption" aria-describedby="search-table-scroll-hint" tabindex="0"><p class="table-scroll-hint" id="search-table-scroll-hint">On smaller screens, scroll horizontally to see all columns.</p>
+      <table class="task-table" data-grid="search"><caption class="sr-only" id="search-table-caption">Task search results</caption>
         <colgroup>{% for key in ['task','description','status','priority','assignee','due_date','created_by','created','view'] %}<col data-col="{{ key }}" style="width:{{ grid_widths[key] }}px">{% endfor %}</colgroup>
-        <thead><tr>{% for key,label in [('title','Task'),('description','Description'),('status','Status'),('priority','Priority'),('assignee','Assignee'),('due_date','Due date'),('created_by','Created by'),('created','Created')] %}<th><a href="{{ url_for('tasks.search',q=search or None,sort=key,direction='desc' if sort==key and direction=='asc' else 'asc') }}">{{ label }}{% if sort==key %} {{ '↑' if direction=='asc' else '↓' }}{% endif %}</a><span class="resize-handle" aria-hidden="true"></span></th>{% endfor %}<th>View</th></tr></thead>
+        <thead><tr>{% for key,label in [('title','Task'),('description','Description'),('status','Status'),('priority','Priority'),('assignee','Assignee'),('due_date','Due date'),('created_by','Created by'),('created','Created')] %}<th scope="col" {% if sort==key %}aria-sort="{{ 'ascending' if direction=='asc' else 'descending' }}"{% endif %}><a href="{{ url_for('tasks.search',q=search or None,sort=key,direction='desc' if sort==key and direction=='asc' else 'asc') }}">{{ label }}{% if sort==key %} {{ '↑' if direction=='asc' else '↓' }}{% endif %}</a><span class="resize-handle" aria-hidden="true"></span></th>{% endfor %}<th scope="col">View</th></tr></thead>
         <tbody>
-          {% for task in tasks %}<tr data-search-row tabindex="0" data-view-url="{{ url_for('tasks.search',selected=task.id,q=search or None,page=page,sort=sort,direction=direction) }}">
+          {% for task in tasks %}<tr>
             <th scope="row"><a class="search-row-link" href="{{ url_for('tasks.search',selected=task.id,q=search or None,page=page,sort=sort,direction=direction) }}">{{ task.title }}</a></th><td><a class="search-row-link" href="{{ url_for('tasks.search',selected=task.id,q=search or None,page=page,sort=sort,direction=direction) }}">{{ task.description or '—' }}</a></td><td>{{ task.status|replace('_',' ')|title }}</td><td>{{ task.priority|title }}</td><td>{{ task.assignee.display_name }}</td><td>{{ task.due_date.strftime('%d-%m-%y') if task.due_date else '—' }}</td><td>{{ task.created_by.display_name }}</td><td>{{ task.created_at.strftime('%d-%m-%y') }}</td><td><a class="icon-button" aria-label="View {{ task.title }}" href="{{ url_for('tasks.search',selected=task.id,q=search or None,page=page,sort=sort,direction=direction) }}">◉</a></td>
           </tr>{% else %}<tr><td colspan="9">{% if search %}No tasks match “{{ search }}”.{% else %}No tasks are available in this department.{% endif %}</td></tr>{% endfor %}
         </tbody>
@@ -31,7 +31,7 @@
   </section>
 </div>
 {% if selected_task %}
-<dialog class="task-dialog" open aria-labelledby="search-task-dialog-title">
+<dialog class="task-dialog" data-page-dialog aria-labelledby="search-task-dialog-title">
   <div class="dialog-header"><h2 id="search-task-dialog-title">Search result details</h2><a class="icon-button" aria-label="Close task details" href="{{ url_for('tasks.search',q=search or None,page=page,sort=sort,direction=direction) }}">×</a></div>
   <h3>{{ selected_task.title }}</h3><p class="task-detail-description">{{ selected_task.description or 'No description provided.' }}</p>
   <dl class="task-detail-list"><dt>Status</dt><dd>{{ selected_task.status|replace('_',' ')|title }}</dd><dt>Priority</dt><dd>{{ selected_task.priority|title }}</dd><dt>Assignee</dt><dd>{{ selected_task.assignee.display_name }}</dd><dt>Created by</dt><dd>{{ selected_task.created_by.display_name }}</dd><dt>Due date</dt><dd>{{ selected_task.due_date.strftime('%d-%m-%y') if selected_task.due_date else 'Not set' }}</dd><dt>Created</dt><dd>{{ selected_task.created_at.strftime('%d-%m-%y') }}</dd></dl>
